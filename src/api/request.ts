@@ -2,8 +2,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '@/router';
-//引入用户相关的仓库
-import useUserStore from '@/stores/modules/user'
 //第一步:利用axios对象的create方法,去创建axios实例(其他的配置:基础路径、超时的时间)
 const request = axios.create({
   //基础路径
