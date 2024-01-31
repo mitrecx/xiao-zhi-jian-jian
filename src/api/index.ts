@@ -1,5 +1,5 @@
 //统一管理咱们项目用户相关的接口
-import request from '@/utils/request'
+import request from './request'
 import type {
   loginFormData,
   loginResponseData,
@@ -15,5 +15,9 @@ enum API {
 //登录接口
 export const reqLogin = (data: loginFormData) =>
   request.post<any, loginResponseData>(API.LOGIN_URL, data)
+
 //退出登录
 export const reqLogout = () => request.post<any, any>(API.LOGOUT_URL)
+
+export const reqHello = () => request.get<string, any>('/v1/test/hello')
+export const reqHello2 = () => request.get < { data: string, code: string, message: string }, any>('/v1/test/hello2')

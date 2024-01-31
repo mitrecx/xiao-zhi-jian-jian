@@ -11,6 +11,7 @@ export const constantRoute = [
       icon: 'Promotion', //菜单文字左侧的图标,支持element-plus全部图标
     },
   },
+
   {
     //登录成功以后展示数据的路由
     path: '/',
@@ -21,7 +22,9 @@ export const constantRoute = [
       hidden: false,
       icon: '',
     },
+
     redirect: '/home',
+    
     children: [
       {
         path: '/home',
@@ -34,6 +37,7 @@ export const constantRoute = [
       },
     ],
   },
+
   {
     //404
     path: '/404',
