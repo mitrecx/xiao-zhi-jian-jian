@@ -6,7 +6,7 @@ import router from '@/router';
 const request = axios.create({
   //基础路径
   // baseURL: import.meta.env.VITE_APP_BASE_API, //基础路径上会携带/api
-  baseURL: "http://localhost:8001", 
+  baseURL: "http://localhost:8001",
   // baseURL: "http://172.19.68.143:8001",
   // baseURL: "http://139.196.20.110:8001", 
   // baseURL: "http://192.168.0.102:8001", 
@@ -40,31 +40,36 @@ request.interceptors.response.use(
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     let message = ''
-    //http状态码
-    const status = error.response.status
-    switch (status) {
-      case 401:
-        message = 'session 已过期, 请重新登录'
-        router.push({ name: 'login' }); 
-        break
-      case 403:
-        message = '无权访问'
-        break
-      case 404:
-        message = '请求地址错误'
-        break
-      case 500:
-        message = '服务器出现问题'
-        break
-      default:
-        message = '网络出现问题'
-        break
+    if (error.code === 'ERR_NETWORK') {
+      message = '网络错误, 我推测是后端服务挂了 o(╥﹏╥)o'
+    } else {
+      //http状态码
+      const status = error.response.status
+      switch (status) {
+        case 401:
+          message = error.response.data.message
+          router.push({ name: 'login' });
+          break
+        case 403:
+          message = '无权访问'
+          break
+        case 404:
+          message = '请求地址错误'
+          break
+        case 500:
+          message = '服务器出现问题'
+          break
+        default:
+          message = '网络出现问题'
+          break
+      }
     }
     //提示错误信息
     ElMessage({
       type: 'error',
       message,
     })
+    console.log("响应拦截器错误: ", error)
     return Promise.reject(error)
   },
 )

@@ -44,6 +44,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { ElNotification } from 'element-plus'
 //引入用户相关的小仓库
 import useUserStore from '@/stores/modules/user'
+import { AxiosError } from 'axios'
 let useStore = useUserStore()
 //获取el-form组件
 let loginForms = ref()
@@ -72,27 +73,21 @@ const login = async () => {
     // 判断登录的时候,路由路径当中是否有query参数，如果有就往query参数跳转，没有跳转到首页
     let redirect: any = $route.query.redirect
     $router.push({ path: redirect || '/' })
-    //登录成功提示信息
-    ElNotification({
-      type: 'success',
-      message: '欢迎回来',
-      title: `HI, 你好`
-    })
+    ElNotification.closeAll()
     //登录成功加载效果也消失
     loading.value = false
   } catch (error) {
-    console.log(error)
-    
-    //登录失败加载效果消息
-    loading.value = false
-    //登录失败的提示信息
-    ElNotification({
-      type: 'error',
-      message: (error as Error).message
-    })
+    if ((error as AxiosError).code != 'ERR_NETWORK') {
+      //登录失败加载效果消息
+      loading.value = false
+      //登录失败的提示信息
+      ElNotification({
+        type: 'error',
+        message: (error as Error).message
+      })
+    }
   }
 }
-
 </script>
 <style scoped lang="scss">
 .login_container {
