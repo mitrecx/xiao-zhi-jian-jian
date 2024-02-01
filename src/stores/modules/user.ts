@@ -31,24 +31,24 @@ const useUserStore = defineStore('User', {
     async userLogin(data: loginFormData) {
       //登录请求
       const result: loginResponseData = await reqLogin(data)
-      //登录请求:成功200->token
-      //登录请求:失败201->登录失败错误的信息
+      //登录请求:成功0000->token
+      //登录请求:失败->登录失败错误的信息
       console.log(result)
-      if (result.code == '00') {
+      if (result.code == '0000') {
+        console.log('success..')
         //pinia仓库存储一下token
         //由于pinia|vuex存储数据其实利用js对象
         // this.token = result.data as string
-        console.log('success..')
         //本地存储持久化存储一份
         // SET_TOKEN(result.data as string)
         //能保证当前async函数返回一个成功的promise
         return 'ok'
       } else {
         console.log('failed to login !')
-        return Promise.reject(new Error(result.data))
+        return Promise.reject(new Error(result.message))
       }
     },
-   
+
     //退出登录
     async userLogout() {
       //退出登录请求

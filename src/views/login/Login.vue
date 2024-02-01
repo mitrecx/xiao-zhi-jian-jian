@@ -55,7 +55,7 @@ let $route = useRoute()
 //定义变量控制按钮加载效果
 let loading = ref(false)
 //收集账号与密码的数据
-let loginForm = reactive({ username: '', password: '' })
+let loginForm = reactive({ username: 'admin', password: '1233' })
 //登录按钮回调
 const login = async () => {
   //保证全部表单相校验通过再发请求
@@ -81,6 +81,8 @@ const login = async () => {
     //登录成功加载效果也消失
     loading.value = false
   } catch (error) {
+    console.log(error)
+    
     //登录失败加载效果消息
     loading.value = false
     //登录失败的提示信息

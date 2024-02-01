@@ -44,3 +44,8 @@ pnpm build
 ```sh
 pnpm lint
 ```
+
+start locally: 
+```sh
+npx vite --port=4000
+```
