@@ -41,7 +41,7 @@ request.interceptors.response.use(
     // 对响应错误做点什么
     let message = ''
     if (error.code === 'ERR_NETWORK') {
-      message = '网络错误, 我推测是后端服务挂了 o(╥﹏╥)o'
+      message = '网络错误, 可能是后端服务挂了 o(╥﹏╥)o'
     } else {
       //http状态码
       const status = error.response.status
