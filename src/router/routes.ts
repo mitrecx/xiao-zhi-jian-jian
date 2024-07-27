@@ -35,6 +35,15 @@ export const constantRoute = [
           icon: 'HomeFilled',
         },
       },
+      {
+        path: '/word',
+        component: () => import('@/views/word/EnglishWord.vue'),
+        meta: {
+          title: '背单词',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
     ],
   },
 
