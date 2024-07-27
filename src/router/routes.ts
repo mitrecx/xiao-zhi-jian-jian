@@ -23,7 +23,7 @@ export const constantRoute = [
       icon: '',
     },
 
-    redirect: '/home',
+    redirect: '/word',
     
     children: [
       {
