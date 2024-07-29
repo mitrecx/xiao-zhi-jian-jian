@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { ElNotification } from 'element-plus'
+
 const getResult = ref<any | null>(null)
 
 const pageNumber = ref<any | null>(1)
@@ -11,15 +12,30 @@ const pages = ref(10)
 const total = ref(1)
 const current = ref(1)
 
+const showModal = ref(false)
+const inputValue = ref('')
+const searchWord = ref('')
+
+const showModalOperation = ref(false)
+const wordId = ref<any | null>(null)
+const wordOrder = ref(1)
+const word = ref('')
+const phoneticSymbol = ref('')
+const chinese = ref('')
+const frequency = ref(1)
+
 const search = async () => {
   // 处理提交逻辑
   //   console.log('提交内容:', inputValue.value)
-    const response = await axios.get('http://139.196.20.110:8001/v1/english2-word/search-page-number', {
-//   const response = await axios.get('http://localhost:8001/v1/english2-word/search-page-number', {
-    params: {
-      word: searchWord.value
+  const response = await axios.get(
+    'http://139.196.20.110:8001/v1/english2-word/search-page-number',
+    {
+      //   const response = await axios.get('http://localhost:8001/v1/english2-word/search-page-number', {
+      params: {
+        word: searchWord.value
+      }
     }
-  })
+  )
   console.log(response)
   if (response.data == null || response.data == '' || response.data == 0) {
     ElNotification({
@@ -33,7 +49,26 @@ const search = async () => {
 }
 
 const clear = () => {
-    searchWord.value = ''
+  searchWord.value = ''
+}
+
+const audioUrl = ref<any>(null)
+
+const loadAudio = async (word: any) => {
+  try {
+    const response = await axios.get(
+      `http://139.196.20.110:8001/v1/english2-word/download/${word}`,
+      {
+        responseType: 'blob'
+      }
+    )
+    console.log(response.data)
+
+    const url = URL.createObjectURL(response.data)
+    audioUrl.value = url
+  } catch (error) {
+    console.error('Error fetching audio file:', error)
+  }
 }
 
 const sendGetRequest = async () => {
@@ -47,6 +82,7 @@ const sendGetRequest = async () => {
     console.log(response)
 
     getResult.value = response.data
+    loadAudio(response.data.records[0].word)
 
     pages.value = response.data.pages
     total.value = response.data.total
@@ -92,18 +128,6 @@ function clearOperationForm() {
   chinese.value = ''
   frequency.value = 1
 }
-
-const showModal = ref(false)
-const inputValue = ref('')
-const searchWord = ref('')
-
-const showModalOperation = ref(false)
-const wordId = ref<any | null>(null)
-const wordOrder = ref(1)
-const word = ref('')
-const phoneticSymbol = ref('')
-const chinese = ref('')
-const frequency = ref(1)
 
 const submit = () => {
   // 处理提交逻辑
@@ -189,7 +213,14 @@ const closeModalOperation = () => {
           <!-- <p>{{ getResult.records }}</p> -->
           <ul>
             <li>{{ getResult.records[0].word }}</li>
-            <li>{{ getResult.records[0].phoneticSymbol }}</li>
+            <li>
+              <p>{{ getResult.records[0].phoneticSymbol }}</p>
+
+              <audio v-if="audioUrl" :src="audioUrl" controls>
+                Your browser does not support the audio element.
+              </audio>
+              <!-- <button @click="loadAudio('ability')">Load Audio</button> -->
+            </li>
             <li>{{ getResult.records[0].chinese }}</li>
             <li>出现频率: {{ getResult.records[0].frequency }}</li>
           </ul>

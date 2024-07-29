@@ -44,6 +44,15 @@ export const constantRoute = [
           icon: 'HomeFilled',
         },
       },
+      {
+        path: '/sound',
+        component: () => import('@/views/word/SoundTest.vue'),
+        meta: {
+          title: '调试声音',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
     ],
   },
 
