@@ -7,7 +7,8 @@ const request = axios.create({
   //基础路径
   // baseURL: import.meta.env.VITE_APP_BASE_API, //基础路径上会携带/api
   // baseURL: "http://localhost:8001",
-  baseURL: "http://139.196.20.110:8001", 
+  // baseURL: "http://139.196.20.110:8001", 
+  baseURL: "https://mitrecx.top:8001", 
   timeout: 30000, //超时的时间的设置
   withCredentials: true,
   headers: {

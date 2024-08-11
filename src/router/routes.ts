@@ -46,9 +46,18 @@ export const constantRoute = [
       },
       {
         path: '/sound',
-        component: () => import('@/views/word/SoundTest.vue'),
+        component: () => import('@/views/word/SoundTestSource.vue'),
         meta: {
           title: '调试声音',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+      {
+        path: '/sound1',
+        component: () => import('@/views/word/SoundTest.vue'),
+        meta: {
+          title: '调试声音1',
           hidden: false,
           icon: 'HomeFilled',
         },

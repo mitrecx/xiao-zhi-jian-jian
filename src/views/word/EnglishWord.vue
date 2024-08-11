@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
 import { ElNotification } from 'element-plus'
 
@@ -23,19 +23,19 @@ const word = ref('')
 const phoneticSymbol = ref('')
 const chinese = ref('')
 const frequency = ref(1)
+// 必须和模板里的 ref 同名
+const audioPlayer = ref()
+let chineseShow = ref(false)
 
 const search = async () => {
   // 处理提交逻辑
   //   console.log('提交内容:', inputValue.value)
-  const response = await axios.get(
-    'http://139.196.20.110:8001/v1/english2-word/search-page-number',
-    {
-      //   const response = await axios.get('http://localhost:8001/v1/english2-word/search-page-number', {
-      params: {
-        word: searchWord.value
-      }
+  const response = await axios.get('https://mitrecx.top:8001/v1/english2-word/search-page-number', {
+    //   const response = await axios.get('http://localhost:8001/v1/english2-word/search-page-number', {
+    params: {
+      word: searchWord.value
     }
-  )
+  })
   console.log(response)
   if (response.data == null || response.data == '' || response.data == 0) {
     ElNotification({
@@ -54,35 +54,58 @@ const clear = () => {
 
 const audioUrl = ref<any>(null)
 
+const wordOne = ref<any>(null)
+
 const loadAudio = async (word: any) => {
   try {
-    const response = await axios.get(
-      `http://139.196.20.110:8001/v1/english2-word/download/${word}`,
-      {
-        responseType: 'blob'
-      }
-    )
+    const response = await axios.get(`https://mitrecx.top:8001/v1/english2-word/download/${word}`, {
+      responseType: 'blob'
+    })
     console.log(response.data)
 
     const url = URL.createObjectURL(response.data)
     audioUrl.value = url
+    console.log('audioUrl: ', audioUrl.value)
   } catch (error) {
     console.error('Error fetching audio file:', error)
   }
+}
+
+const loadOxford = async (word: any) => {
+  try {
+    // http://localhost:8001
+    const response = await axios.get(`https://mitrecx.top:8001/v1/english2-word/query`, {
+      params: {
+        word: word
+      }
+    })
+    const oxfordData = JSON.parse(response.data.oxford)
+    wordOne.value = oxfordData
+    console.log(wordOne.value)
+  } catch (error) {
+    console.error('Error fetching audio file:', error)
+  }
+}
+
+const playByButton = () => {
+  console.log('audioPlayer: ', audioPlayer.value)
+  audioPlayer.value.play()
 }
 
 const sendGetRequest = async () => {
   try {
     // 假设你的API接受查询字符串参数而不是请求体 139.196.20.110
     // const response = await axios.post('http://localhost:8001/v1/english2-word/page2', {
-    const response = await axios.post('http://139.196.20.110:8001/v1/english2-word/page2', {
+    const response = await axios.post('https://mitrecx.top:8001/v1/english2-word/page2', {
       pageNumber: pageNumber.value,
       pageSize: pageSize.value
     })
     console.log(response)
 
     getResult.value = response.data
+
     loadAudio(response.data.records[0].word)
+    loadOxford(response.data.records[0].word)
 
     pages.value = response.data.pages
     total.value = response.data.total
@@ -96,9 +119,16 @@ onMounted(() => {
   sendGetRequest()
 })
 
+watch(getResult, (newVal) => {
+  if (newVal) {
+    window.scrollTo(0, 0)
+  }
+})
+
 function previous() {
   if (pageNumber.value > 1) {
     pageNumber.value--
+    chineseShow.value = false
     sendGetRequest()
   }
 }
@@ -106,6 +136,7 @@ function previous() {
 function next() {
   if (pageNumber.value < pages.value) {
     pageNumber.value++
+    chineseShow.value = false
     sendGetRequest()
   }
 }
@@ -144,7 +175,7 @@ const closeModal = () => {
 const submitOperation = async () => {
   // 处理提交逻辑
   //   console.log('提交内容:', inputValue.value)
-  await axios.post('http://139.196.20.110:8001/v1/english2-word', {
+  await axios.post('https://mitrecx.top:8001/v1/english2-word', {
     //   await axios.post('http://localhost:8001/v1/english2-word', {
     wordId: wordId.value,
     wordOrder: wordOrder.value,
@@ -207,36 +238,70 @@ const closeModalOperation = () => {
         </div>
       </teleport>
 
-      <el-scrollbar height="60vh">
-        <!-- <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p> -->
-        <div v-if="getResult" class="card">
-          <!-- <p>{{ getResult.records }}</p> -->
-          <ul>
-            <li>{{ getResult.records[0].word }}</li>
-            <li>
-              <p>{{ getResult.records[0].phoneticSymbol }}</p>
+      <!-- <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p> -->
+      <div v-if="getResult" class="card">
+        <!-- <p>{{ getResult.records }}</p> -->
+        <ul>
+          <li>{{ getResult.records[0].word }}</li>
+          <li>
+            <p>{{ getResult.records[0].phoneticSymbol }}</p>
+            <audio v-show="false" ref="audioPlayer" :key="audioUrl" controls>
+              <source :src="audioUrl" type="audio/mpeg" />
+            </audio>
+            <button v-if="audioUrl" @click="playByButton">美式发音</button>
+            <!-- <button @click="loadAudio('ability')">Load Audio</button> -->
+          </li>
+          <li v-show="chineseShow">{{ getResult.records[0].chinese }}</li>
+          <li>出现频率: {{ getResult.records[0].frequency }}</li>
+        </ul>
+      </div>
 
-              <audio v-if="audioUrl" :src="audioUrl" controls>
-                Your browser does not support the audio element.
-              </audio>
-              <!-- <button @click="loadAudio('ability')">Load Audio</button> -->
-            </li>
-            <li>{{ getResult.records[0].chinese }}</li>
-            <li>出现频率: {{ getResult.records[0].frequency }}</li>
-          </ul>
-        </div>
-      </el-scrollbar>
-    </div>
-
-    <div class="word-query">
-      <button class="query" @click="previous">上一个</button>
-      <button class="query" @click="next">下一个</button>
+      <div v-if="wordOne != null">
+        <p class="p-oxford">牛津词典:</p>
+        <ul>
+          <li v-for="wordElement in wordOne.word_elements">
+            <p class="part-of-speech">{{ wordElement.part_of_speech }}</p>
+            <ul>
+              <li
+                v-for="meanEexplain in wordElement.mean_explains"
+                :key="meanEexplain.mean_english"
+              >
+                <div v-if="meanEexplain != null" class="mean-explains">
+                  <div class="mean-explain">
+                    <p>{{ meanEexplain.mean_chinese }}</p>
+                    <p>{{ meanEexplain.mean_english }}</p>
+                  </div>
+                  <ul>
+                    <li v-for="sentence in meanEexplain.example_sentences" :key="sentence.english">
+                      <div class="example-sentence">
+                        <p>{{ sentence.english }}</p>
+                        <p>{{ sentence.chinese }}</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="tail-box"></div>
     </div>
 
     <div class="word-operation">
       <button class="operation" @click="showModalOperation = true">新增</button>
       <button class="operation" @click="update">修改</button>
     </div>
+
+    <div class="tail-box"></div>
+  </div>
+
+  <div class="button-container">
+    <button class="query" @click="previous">上一个</button>
+    <button class="query" @click="chineseShow = !chineseShow">
+      {{ chineseShow ? '隐藏' : '显示' }}汉语意思
+    </button>
+    <button class="query" @click="next">下一个</button>
   </div>
 </template>
 
@@ -270,6 +335,7 @@ const closeModalOperation = () => {
 
 .search-button {
   padding: 8px 16px;
+  margin-right: 2vh;
   background-color: #007bff;
   color: white;
   border: none;
@@ -291,17 +357,15 @@ const closeModalOperation = () => {
 }
 .word-container * {
   text-align: center;
-  font-size: 55px;
+  font-size: 50px;
 }
-.card {
-  height: 40vh;
-}
+
 ul li {
   margin: 0;
   padding: 1vh;
 }
 .query {
-  margin: 3vh;
+  margin: 1vh;
 }
 
 .scrollbar-demo-item {
@@ -343,5 +407,55 @@ ul li {
 
 .modal-content input {
   margin-bottom: 10px;
+}
+
+.p-oxford {
+  text-align: left;
+}
+
+.part-of-speech {
+  background-color: bisque;
+}
+
+.mean-explains {
+  border: 5px solid rgb(255, 124, 124);
+  border-radius: 20px;
+}
+
+.mean-explain {
+  background-color: rgb(243, 226, 206);
+  margin: 1vh;
+}
+
+.example-sentence {
+  margin: 1vh;
+  background-color: #f5f5f5;
+}
+
+.button-container {
+  /* 将容器固定在屏幕底部 */
+  position: fixed;
+  bottom: 0;
+  /* 宽度设置为100%，以便按钮可以水平居中 */
+  width: 100%;
+  /* 使用Flexbox布局 */
+  display: flex;
+  /* 水平居中对齐按钮 */
+  justify-content: center;
+  /* 在按钮之间添加一些间隔（可选） */
+  gap: 20px;
+  /* 设置容器的背景色（可选），以便更好地看到它的位置 */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 防止容器内的内容溢出到外部 */
+  padding: 10px 0;
+  /* 可选：设置容器的盒模型 */
+  box-sizing: border-box;
+  /* 可选：防止按钮被页面滚动条遮挡 */
+  z-index: 1000; /* 根据需要调整 */
+  font-size: 2vh;
+}
+
+.tail-box {
+  height: 8vh;
 }
 </style>
