@@ -23,11 +23,20 @@ export const constantRoute = [
       icon: '',
     },
 
-    redirect: '/word',
-    
+    redirect: '/home',
+
     children: [
       {
         path: '/home',
+        component: () => import('@/views/home/Home.vue'),
+        meta: {
+          title: '首页',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+      {
+        path: '/calendar',
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
@@ -45,23 +54,15 @@ export const constantRoute = [
         },
       },
       {
-        path: '/sound',
-        component: () => import('@/views/word/SoundTestSource.vue'),
+        path: '/note',
+        component: () => import('@/views/note/Note.vue'),
         meta: {
-          title: '调试声音',
+          title: '笔记本',
           hidden: false,
           icon: 'HomeFilled',
         },
       },
-      {
-        path: '/sound1',
-        component: () => import('@/views/word/SoundTest.vue'),
-        meta: {
-          title: '调试声音1',
-          hidden: false,
-          icon: 'HomeFilled',
-        },
-      },
+
     ],
   },
 

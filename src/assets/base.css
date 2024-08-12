@@ -85,3 +85,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* touch-action: manipulation; */
 }
+
+a {
+  text-decoration: none;
+  /* 移除下划线 */
+  color: inherit;
+  /* 使链接颜色继承父元素的文本颜色 */
+}
