@@ -54,8 +54,45 @@ export const constantRoute = [
         },
       },
       {
+        path: '/user',
+        component: () => import('@/views/user/User.vue'),
+        meta: {
+          title: '用户管理',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+      {
+        path: '/user/add',
+        component: () => import('@/views/user/AddUser.vue'),
+        meta: {
+          title: '新增用户',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+      {
+        path: '/user/detail/:id',
+        component: () => import('@/views/user/DetailUser.vue'),
+        meta: {
+          title: '用户详情',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+      {
+        path: '/user/update/:id',
+        component: () => import('@/views/user/UpdateUser.vue'),
+        meta: {
+          title: '修改用户',
+          hidden: false,
+          icon: 'HomeFilled',
+        },
+      },
+      {
         path: '/note',
-        component: () => import('@/views/note/Note.vue'),
+        // component: () => import('@/views/note/Note.vue'),
+        component: () => import('@/views/note/InfiniteScrollTop.vue'),
         meta: {
           title: '笔记本',
           hidden: false,

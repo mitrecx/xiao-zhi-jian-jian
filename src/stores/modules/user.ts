@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 //引入接口
 import { reqLogin, reqLogout } from '@/api'
 import type {
-  loginFormData,
-  loginResponseData,
+  LoginFormData,
+  LoginResponseData,
 } from '@/api/type'
 import type { UserState } from './types/type'
 //引入操作本地存储的工具方法
@@ -28,9 +28,9 @@ const useUserStore = defineStore('User', {
   //异步|逻辑的地方
   actions: {
     //用户登录的方法
-    async userLogin(data: loginFormData) {
+    async userLogin(data: LoginFormData) {
       //登录请求
-      const result: loginResponseData = await reqLogin(data)
+      const result: LoginResponseData = await reqLogin(data)
       //登录请求:成功0000->token
       //登录请求:失败->登录失败错误的信息
       console.log(result)

@@ -1,6 +1,6 @@
 //定义用户相关数据的ts类型
 //用户登录接口携带参数的ts类型
-export interface loginFormData {
+export interface LoginFormData {
   username: string
   password: string
 }
@@ -11,8 +11,29 @@ export interface ResponseData {
   message: string
   ok: boolean
 }
+export interface CommonResponse<T> {
+  code: string
+  message: string
+  data: T
+}
+
+export interface PageResponse<T> {
+  current: number
+  pages: number
+  size: number
+  total: number
+  records: T[]
+}
+
+
 
 //定义登录接口返回数据类型
-export interface loginResponseData extends ResponseData {
+export interface LoginResponseData extends ResponseData {
   data: string
+}
+
+// 分页查询请求参数
+export interface BasePageRequest {
+  pageNumber: number
+  pageSize: number
 }

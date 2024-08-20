@@ -6,9 +6,9 @@ import router from '@/router';
 const request = axios.create({
   //基础路径
   // baseURL: import.meta.env.VITE_APP_BASE_API, //基础路径上会携带/api
-  // baseURL: "http://localhost:8001",
+  baseURL: "http://localhost:8001",
   // baseURL: "http://139.196.20.110:8001", 
-  baseURL: "https://mitrecx.top:8001", 
+  // baseURL: "https://mitrecx.top:8001", 
   timeout: 30000, //超时的时间的设置
   withCredentials: true,
   headers: {
@@ -33,7 +33,8 @@ request.interceptors.response.use(
   (response) => {
     // 2xx 范围内的状态码都会触发该函数
     // 对响应数据做点什么
-    return response.data
+    // return response.data
+    return response
   },
   (error) => {
     // 超出 2xx 范围的状态码都会触发该函数。
