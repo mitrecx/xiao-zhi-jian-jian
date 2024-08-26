@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts" setup>
-import { updateUser, pageUser, deleteUser, detailUser } from '@/api/index'
+import { pageUser } from '@/api/index'
 import { ref, onMounted } from 'vue'
 import * as tuser from '@/api/type_user'
 import { useRouter } from 'vue-router'
@@ -134,8 +134,10 @@ const search = async () => {
     status: statusReq.value,
     deleted: deletedReq.value
   })
-  tableData.value = res.data.data.records
-  total.value = res.data.data.total
+  if (res.data.data != undefined) {
+    tableData.value = res.data.data.records
+    total.value = res.data.data.total
+  }
 }
 
 onMounted(async () => {
@@ -145,9 +147,10 @@ onMounted(async () => {
   })
 
   console.log(res.data)
-
-  tableData.value = res.data.data.records
-  total.value = res.data.data.total
+  if (res.data.data != undefined) {
+    tableData.value = res.data.data.records
+    total.value = res.data.data.total
+  }
 })
 
 // 新增用户
@@ -173,7 +176,9 @@ const prevClick = async () => {
     pageNumber: pageNumber.value,
     pageSize: pageSize.value
   })
-  tableData.value = res.data.data.records
+  if (res.data.data != undefined) {
+    tableData.value = res.data.data.records
+  }
 }
 // 下一页
 const nextClick = async () => {
@@ -183,7 +188,9 @@ const nextClick = async () => {
     pageNumber: pageNumber.value,
     pageSize: pageSize.value
   })
-  tableData.value = res.data.data.records
+  if (res.data.data != undefined) {
+    tableData.value = res.data.data.records
+  }
 }
 
 // 当前页
@@ -194,7 +201,9 @@ const currentChange = async (val: number) => {
     pageNumber: pageNumber.value,
     pageSize: pageSize.value
   })
-  tableData.value = res.data.data.records
+  if (res.data.data != undefined) {
+    tableData.value = res.data.data.records
+  }
 }
 </script>
 

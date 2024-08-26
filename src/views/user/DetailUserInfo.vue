@@ -9,7 +9,7 @@ const props = defineProps<{ disabled: boolean }>()
 const router = useRouter()
 // 存储用户信息
 const userInfo: DetailUserResponse = reactive({
-  id: 0,
+  userId: 0,
   loginName: '',
   username: '',
   email: '',
@@ -29,17 +29,18 @@ const getUserDetail = async () => {
     return
   }
   const ui = response.data.data
-  // 赋值
-  userInfo.id = ui.id
-  userInfo.loginName = ui.loginName
-  userInfo.username = ui.username
-  userInfo.email = ui.email
-  userInfo.phone = ui.phone
-  userInfo.status = ui.status
-  userInfo.createTime = ui.createTime
-  userInfo.updateTime = ui.updateTime
-  userInfo.deleted = ui.deleted
-  userInfo.lastLoginTime = ui.lastLoginTime
+  if (ui !== null && ui !== undefined) {
+    userInfo.userId = ui.userId
+    userInfo.loginName = ui.loginName
+    userInfo.username = ui.username
+    userInfo.email = ui.email
+    userInfo.phone = ui.phone
+    userInfo.status = ui.status
+    userInfo.createTime = ui.createTime
+    userInfo.updateTime = ui.updateTime
+    userInfo.deleted = ui.deleted
+    userInfo.lastLoginTime = ui.lastLoginTime
+  }
 }
 
 onMounted(() => {
@@ -67,24 +68,25 @@ onMounted(() => {
     </div>
     <div class="item">
       <span>状态：</span>
-      <el-input :disabled="props.disabled" v-model="userInfo.status" style="width: 240px" />
+      <el-input :disabled="true" v-model="userInfo.status" style="width: 240px" />
     </div>
     <div class="item">
       <span>创建时间：</span>
-      <el-input :disabled="props.disabled" v-model="userInfo.createTime" style="width: 240px" />
+      <el-input :disabled="true" v-model="userInfo.createTime" style="width: 240px" />
     </div>
     <div class="item">
       <span>更新时间：</span>
-      <el-input :disabled="props.disabled" v-model="userInfo.updateTime" style="width: 240px" />
+      <el-input :disabled="true" v-model="userInfo.updateTime" style="width: 240px" />
     </div>
     <div class="item">
       <span>是否删除：</span>
-      <el-input :disabled="props.disabled" v-model="userInfo.deleted" style="width: 240px" />
+      <el-input :disabled="true" v-model="userInfo.deleted" style="width: 240px" />
     </div>
     <div class="item">
       <span>最后登录时间：</span>
-      <el-input :disabled="props.disabled" v-model="userInfo.lastLoginTime" style="width: 240px" />
+      <el-input :disabled="true" v-model="userInfo.lastLoginTime" style="width: 240px" />
     </div>
+    <slot text="greetingMessage" :ui="userInfo"></slot>
   </div>
 </template>
 

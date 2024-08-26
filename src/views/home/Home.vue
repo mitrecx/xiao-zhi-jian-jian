@@ -55,6 +55,23 @@
           </div>
         </div>
       </div>
+
+      <!-- 理财 -->
+      <div class="tool">
+        <div class="tool-text-container">
+          <p class="tool-text">系统管理</p>
+        </div>
+        <div class="item-body">
+          <!-- 股票指数 -->
+          <div class="item">
+            <RouterLink to="/user">
+            <img class="item-img" src="/src/assets/images/home/user.jpg" alt="指数" />
+            <p class="item-title">系统管理</p>
+            <p class="item-desc">系统管理</p>
+            </RouterLink>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热词</title>
+</head>
+<style>
+    /* 默认样式 */
+    a {
+        display: block;
+        width: 200px;
+        height: 80px;
+        background-color: #3064bb;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        line-height: 80px;
+        font-size: 18px;
+        border: 1px solid #000;
+    }
+
+    /* 结构伪类选择器 */
+    /* a:nth-child(3) {
+        background-color: #81d7d3;
+    } */
+    /* 结构伪类选择器: 2的倍数 */
+    a:nth-child(2n) {
+        background-color: #81d7d3;
+    }
+
+    /* 鼠标悬停 */
+    a:hover {
+        background-color: #608dd9;
+    }
+</style>
+
+<body>
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+</body>
+
+</html>

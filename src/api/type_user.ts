@@ -36,7 +36,7 @@ export interface PageRes {
 
 // 查询用户响应类型
 export interface DetailUserResponse {
-  id: number
+  userId: number
   loginName: string
   username: string
   email: string

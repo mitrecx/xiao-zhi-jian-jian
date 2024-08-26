@@ -175,8 +175,8 @@ const closeModal = () => {
 const submitOperation = async () => {
   // 处理提交逻辑
   //   console.log('提交内容:', inputValue.value)
-  await axios.post('https://mitrecx.top:8001/v1/english2-word', {
-    //   await axios.post('http://localhost:8001/v1/english2-word', {
+  await axios.post('https://mitrecx.top:8001/v1/english2-word/add', {
+    //   await axios.post('http://localhost:8001/v1/english2-word/add', {
     wordId: wordId.value,
     wordOrder: wordOrder.value,
     word: word.value,

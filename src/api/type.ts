@@ -14,7 +14,7 @@ export interface ResponseData {
 export interface CommonResponse<T> {
   code: string
   message: string
-  data: T
+  data?: T
 }
 
 export interface PageResponse<T> {
@@ -28,8 +28,7 @@ export interface PageResponse<T> {
 
 
 //定义登录接口返回数据类型
-export interface LoginResponseData extends ResponseData {
-  data: string
+export interface LoginResponseData extends CommonResponse<string> {
 }
 
 // 分页查询请求参数
