@@ -1,13 +1,10 @@
 <script lang="ts" setup>
-import useUserStore from "@/stores/modules/user"
-const userStore = useUserStore()
 </script>
 
 <template>
   <div class="home-container">
     <!-- 收藏 -->
     <div class="favorites"></div>
-    <!-- {{ userStore.username }} -->
     <!-- 工具分类 -->
     <div class="tools-category">
       <!-- 效率类工具 -->
