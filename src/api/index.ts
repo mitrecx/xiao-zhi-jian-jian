@@ -4,7 +4,7 @@ import * as t from './type'
 import * as tuser from './type_user'
 
 //登录接口
-export const reqLogin = (data: t.LoginFormData) => request.post<t.CommonResponse<string>>("/v1/login", data)
+export const reqLogin = (data: t.LoginFormData) => request.post<t.CommonResponse<t.AuthVO>>("/v1/login", data)
 //退出登录
 export const reqLogout = () => request.post("/v1/logout")
 
@@ -24,5 +24,3 @@ export const detailUser = (id: string) =>
 // 查询列表
 export const pageUser = (data: tuser.PageUserRequest) =>
     request.post<t.CommonResponse<t.PageResponse<tuser.PageRes>>>("/v1/user/page", data)
-
-

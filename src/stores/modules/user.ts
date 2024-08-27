@@ -2,10 +2,7 @@
 import { defineStore } from 'pinia'
 //引入接口
 import { reqLogin, reqLogout } from '@/api'
-import type {
-  LoginFormData,
-  LoginResponseData,
-} from '@/api/type'
+import type { LoginFormData } from '@/api/type'
 import type { UserState } from './types/type'
 //引入操作本地存储的工具方法
 // import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
@@ -23,6 +20,7 @@ const useUserStore = defineStore('User', {
       avatar: '',
       //存储当前用户是否包含某一个按钮
       buttons: [],
+      authList: [],
     } as UserState
   },
   //异步|逻辑的地方
@@ -35,7 +33,11 @@ const useUserStore = defineStore('User', {
       //登录请求:失败->登录失败错误的信息
       console.log(result)
       if (result.data.code == '0000') {
-        console.log('success..')
+        console.log("111", result.data)
+        if (result.data.data) {
+          this.username = result.data.data.username
+          this.authList = result.data.data.authVOList
+        }
         //pinia仓库存储一下token
         //由于pinia|vuex存储数据其实利用js对象
         // this.token = result.data as string

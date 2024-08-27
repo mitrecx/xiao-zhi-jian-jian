@@ -17,6 +17,23 @@ export interface CommonResponse<T> {
   data?: T
 }
 
+export interface AuthVO {
+  loginName: string
+  userId: number
+  username: string
+  authVOList: Auth[]
+}
+
+export interface Auth {
+  authId: string
+  authLevel: number
+  authName: string
+  authOrder: number
+  authType: number
+  children: Auth[]
+  parentId: string
+}
+
 export interface PageResponse<T> {
   current: number
   pages: number
