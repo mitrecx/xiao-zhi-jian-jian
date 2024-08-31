@@ -50,9 +50,9 @@ let useStore = useUserStore()
 let loginForms = ref()
 const size = ref('large')
 //获取路由器
-let $router = useRouter()
+let router = useRouter()
 //路由对象
-let $route = useRoute()
+let route = useRoute()
 //定义变量控制按钮加载效果
 let loading = ref(false)
 //收集账号与密码的数据
@@ -71,8 +71,8 @@ const login = async () => {
     await useStore.userLogin(loginForm)
     //编程式导航跳转到展示数据首页
     // 判断登录的时候,路由路径当中是否有query参数，如果有就往query参数跳转，没有跳转到首页
-    let redirect: any = $route.query.redirect
-    $router.push({ path: redirect || '/' })
+    let redirect: any = route.query.redirect
+    router.push({ path: redirect || '/' })
     ElNotification.closeAll()
     //登录成功加载效果也消失
     loading.value = false

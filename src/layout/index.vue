@@ -24,13 +24,12 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { reqLogout } from '@/api'
+import useUserStore from '@/stores/modules/user'
 const router = useRouter()
-
-const logoutAction = () => {
+let useStore = useUserStore()
+const logoutAction = async () => {
+  await useStore.userLogout()
   router.push('/login')
-  reqLogout()
-  console.log('logout')
 }
 </script>
 

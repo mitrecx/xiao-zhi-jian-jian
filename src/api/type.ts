@@ -21,6 +21,7 @@ export interface AuthVO {
   loginName: string
   userId: number
   username: string
+  token: string
   authVOList: Auth[]
 }
 

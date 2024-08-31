@@ -4,9 +4,9 @@ import * as t from './type'
 import * as tuser from './type_user'
 
 //登录接口
-export const reqLogin = (data: t.LoginFormData) => request.post<t.CommonResponse<t.AuthVO>>("/v1/login", data)
+export const reqLogin = (data: t.LoginFormData) => request.post<t.CommonResponse<t.AuthVO>>("/v2/login", data)
 //退出登录
-export const reqLogout = () => request.post("/v1/logout")
+export const reqLogout = () => request.post("/v2/logout")
 
 // 用户管理
 //新增用户
