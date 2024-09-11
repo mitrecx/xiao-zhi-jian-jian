@@ -256,7 +256,7 @@ const closeModalOperation = () => {
         </ul>
       </div>
 
-      <div v-if="wordOne != null">
+      <div v-if="wordOne != null" v-show="chineseShow">
         <p class="p-oxford">牛津词典:</p>
         <ul>
           <li v-for="wordElement in wordOne.word_elements">

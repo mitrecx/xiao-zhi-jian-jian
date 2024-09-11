@@ -1,16 +1,18 @@
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div class="home-container">
-    <!-- 收藏 -->
-    <div class="favorites"></div>
-    <!-- 工具分类 -->
+    <div class="sider">
+      <a href="#">应用集合</a>
+      <a href="#">系统管理</a>
+    </div>
+
+    <!-- 内容 -->
     <div class="tools-category">
       <!-- 效率类工具 -->
       <div class="tool">
         <div class="tool-text-container">
-          <p class="tool-text">效率工具</p>
+          <p class="tool-text">应用集合</p>
         </div>
         <div class="item-body">
           <!-- 笔记 -->
@@ -38,15 +40,7 @@
               <p class="item-desc">倒计时日历</p>
             </RouterLink>
           </div>
-        </div>
-      </div>
 
-      <!-- 理财 -->
-      <div class="tool">
-        <div class="tool-text-container">
-          <p class="tool-text">理财</p>
-        </div>
-        <div class="item-body">
           <!-- 股票指数 -->
           <div class="item">
             <img class="item-img" src="/src/assets/images/home/stock.jpg" alt="指数" />
@@ -56,7 +50,6 @@
         </div>
       </div>
 
-      <!-- 理财 -->
       <div class="tool">
         <div class="tool-text-container">
           <p class="tool-text">系统管理</p>
@@ -65,9 +58,9 @@
           <!-- 股票指数 -->
           <div class="item">
             <RouterLink to="/user">
-            <img class="item-img" src="/src/assets/images/home/user.jpg" alt="指数" />
-            <p class="item-title">系统管理</p>
-            <p class="item-desc">系统管理</p>
+              <img class="item-img" src="/src/assets/images/home/user.jpg" alt="指数" />
+              <p class="item-title">系统管理</p>
+              <p class="item-desc">系统管理</p>
             </RouterLink>
           </div>
         </div>
@@ -77,6 +70,28 @@
 </template>
 
 <style scoped>
+.home-container {
+  display: flex;
+}
+
+.sider a {
+  display: block;
+  width: 200px;
+  height: 80px;
+  background-color: #c1f8ac;
+  color: #000000;
+  text-align: center;
+  text-decoration: none;
+  line-height: 80px;
+  font-size: 18px;
+  /* border: 1px solid #000; */
+}
+
+.sider > a:hover {
+  /* 鼠标悬停 */
+  background-color: #f7b0d7;
+}
+
 .tool-text-container {
   background-color: #e7edfc;
   margin: 0 5px;
